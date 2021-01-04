@@ -1,6 +1,35 @@
 import unittest
 
+from enum import Enum  # Python 2 users: Run pip install enum34
+class Type(Enum):
+    SELL = 0
+    BUY = 1
+class Transaction(object):
+    def __init__(self, type, day, price):
+        self.type = type
+        self.day = day
+        self.price = price
 
+    def __eq__(self, other):
+        return self.type == other.type and \
+            self.day == other.day and \
+            self.price == other.price
+
+    def __repr__(self):
+        return str(self.type) + ' day: ' + \
+            str(self.day) + ' price: ' + \
+            str(self.price)
+class StockTrader(object):
+
+    def find_max_profit(self, prices, k):
+        if None in (prices, k): raise TypeError("Params cant be None")
+        if prices == [] or k <= 0: return []
+        maxP, ans = 0, []
+        for d in range(1, len(prices)):
+            if prices[d] > prices[d-1]:
+                maxP += prices[d]-prices[d-1]
+                ans.extend([Transaction(Type.SELL, d, prices[d]),Transaction(Type.BUY, d-1, prices[d-1])])
+        return maxP, ans
 class TestMaxProfit(unittest.TestCase):
 
     def test_max_profit(self):

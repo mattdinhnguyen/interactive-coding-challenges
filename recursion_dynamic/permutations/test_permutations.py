@@ -1,6 +1,46 @@
 import unittest
-
-
+from collections import Counter
+class Permutations(object):
+    def find_permutations(self, string):
+        if string in (None,""): return string
+        perms = [""]
+        for ch in string:
+            perms = [s[:i] + ch + s[i:]
+                 for s in perms
+                 for i in range((s + ch).index(ch) + 1)] # cant replace with len,bc index return the first index of dup chars
+        perms.sort()
+        print(perms)
+        return perms
+    def find_permutations(self, string):
+        if string in (None,""): return string
+        perms = [""]
+        for ch in string:
+            new_perms = []
+            for perm in perms:
+                for i in range(len(perm)+1): # all positions in perm to insert next ch in string
+                    new_perms.append(perm[:i] + ch + perm[i:])   ###insert ch
+                    if i<len(perm) and perm[i]==ch: break #handles duplication
+            perms = new_perms
+        perms.sort()
+        print(perms)
+        return perms
+    def find_permutations(self, string):
+        def btrack(path, counter):
+            if len(path)==len(string):
+                ans.append("".join(path))
+            for x in counter:  # dont pick duplicates
+                if counter[x] > 0:
+                    path += x # append char x to path list
+                    counter[x] -= 1
+                    btrack(path, counter) # recursively add char x to path
+                    path.pop() # undo for next char in permutation: pop char x
+                    counter[x] += 1 # revert x count
+        if string in (None,""): return string
+        ans = []
+        btrack([], Counter(string)) # recursively add each char in string to empty path list till all in string added
+        ans.sort()
+        print(ans)
+        return ans
 class TestPermutations(unittest.TestCase):
 
     def test_permutations(self):

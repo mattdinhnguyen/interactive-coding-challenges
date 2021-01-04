@@ -1,6 +1,4 @@
 import unittest
-
-
 class TestKnapsack(unittest.TestCase):
 
     def test_knapsack_bottom_up(self):
