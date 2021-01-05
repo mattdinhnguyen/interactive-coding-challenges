@@ -1,6 +1,22 @@
 import unittest
 
-
+class Sets(object):
+    def find_power_set_recursive(self, input_set):
+        if input_set == '': return [input_set]
+        def bfs(idx, ans):
+            if idx < len(input_set):
+                nans = []
+                for a in ans:
+                    if a+input_set[idx] not in ans:
+                        nans.append(a+input_set[idx])
+                return bfs(idx+1, ans+nans)
+            return ans
+        return bfs(0,[''])
+    def find_power_set_iterative(self, input_set):
+        output = ['']
+        for ch in input_set:
+            output += [s + ch for s in output if s+ch not in output]
+        return output
 class TestPowerSet(unittest.TestCase):
 
     def test_power_set(self):
@@ -8,26 +24,24 @@ class TestPowerSet(unittest.TestCase):
         expected = ['']
         self.run_test(input_set, expected)
         input_set = 'a'
-        expected = ['a', '']
+        expected = ['', 'a']
         self.run_test(input_set, expected)
         input_set = 'ab'
-        expected = ['a', 'ab', 'b', '']
+        expected = ['', 'a', 'b', 'ab']
         self.run_test(input_set, expected)
         input_set = 'abc'
-        expected = ['a', 'ab', 'abc', 'ac',
-                    'b', 'bc', 'c', '']
+        expected = ['', 'a', 'b', 'ab', 'c', 'ac', 'bc', 'abc']
         self.run_test(input_set, expected)
         input_set = 'aabc'
-        expected = ['a', 'aa', 'aab', 'aabc', 
-                    'aac', 'ab', 'abc', 'ac', 
-                    'b', 'bc', 'c', '']
+        expected = ['', 'a', 'aa', 'b', 'ab', 'aab', 'c', 'ac', 'aac', 'bc', 'abc', 'aabc']
         self.run_test(input_set, expected)
         print('Success: test_power_set')
 
     def run_test(self, input_set, expected):
-        combinatoric = Combinatoric()
-        result = combinatoric.find_power_set(input_set)
+        combinatoric = Sets()
+        result = combinatoric.find_power_set_recursive(input_set)
         self.assertEqual(result, expected)
+        result = combinatoric.find_power_set_iterative(input_set)
 
 
 def main():
