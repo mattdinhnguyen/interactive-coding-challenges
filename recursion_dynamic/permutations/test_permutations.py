@@ -41,6 +41,18 @@ class Permutations(object):
         ans.sort()
         print(ans)
         return ans
+    def find_permutations(self, string):
+        res = []
+        def backtrack(start, end):
+            if start == end:
+                res.append(string[:])
+            for i in range(start, end):
+                string[start], string[i] = string[i], string[start]
+                backtrack(start+1, end)
+                string[start], string[i] = string[i], string[start]
+        backtrack(0, len(string))
+        return res
+
 class TestPermutations(unittest.TestCase):
 
     def test_permutations(self):
