@@ -1,5 +1,5 @@
 import unittest
-
+class Bits(object):
 
 class TestBits(unittest.TestCase):
 

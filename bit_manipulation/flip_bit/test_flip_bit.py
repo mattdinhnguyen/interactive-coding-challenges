@@ -1,6 +1,29 @@
 import unittest
+class Bits:
+    def __init__(self):
+        self.MAX_BITS = 32
 
-
+    def flip_bit(self, num):
+        if num == None: raise TypeError("Cant be None")
+        if num == 0: return 1
+        if num == -1: return self.MAX_BITS
+        while num and num & 1 == 0:
+            num >>= 1
+        oneMax = cur2Max = cur1Max = 0
+        while num and num & 1 == 1:
+            cur1Max += 1
+            num >>= 1
+            if num & 0b11 == 2:
+                if cur2Max:
+                    oneMax = max(oneMax, cur2Max+cur1Max)
+                if num:
+                    num >>= 1
+                    cur2Max, cur1Max = cur1Max+1, 0
+            elif num & 0b11 == 0:
+                oneMax = max(oneMax, cur2Max+cur1Max)
+                cur2Max = cur1Max = 0
+                while num and num & 1 == 0: num >>= 1
+        return oneMax
 class TestBits(unittest.TestCase):
 
     def test_flip_bit(self):

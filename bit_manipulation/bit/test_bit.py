@@ -1,6 +1,5 @@
 import unittest
 
-
 class TestBit(unittest.TestCase):
 
     def test_bit(self):
