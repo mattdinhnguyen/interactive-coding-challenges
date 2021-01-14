@@ -1,6 +1,15 @@
 import unittest
+from stacks_queues.stack.stack import Stack
+class Hanoi(object):
 
-
+    def move_disks(self, num_disks, src, dest, buff):
+        if None in (src,dest,buff): raise TypeError("Stack params cant be None")
+        def _move_disks(num_disks, src, dest, buff):
+            if num_disks:
+                self.move_disks(num_disks-1, src, buff, dest) # move all, except bottom disk to buff, using dest as buff
+                dest.push(src.pop()) # move bottom disk to dest
+                self.move_disks(num_disks-1, buff, dest, src) # move rest from buff to dest, using src as buff
+        _move_disks(num_disks, src, dest, buff)
 class TestHanoi(unittest.TestCase):
 
     def test_hanoi(self):
