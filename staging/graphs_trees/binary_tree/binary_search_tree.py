@@ -117,7 +117,7 @@ class BinaryTree (object):
 		postOrder = []
 
 		def PostOrder(node):
-			if node is not None:
+			if node:
 				PostOrder(node.leftChild)
 				PostOrder(node.rightChild)
 				postOrder.append(node.data)
